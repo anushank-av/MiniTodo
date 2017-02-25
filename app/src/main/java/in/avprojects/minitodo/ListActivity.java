@@ -1,6 +1,12 @@
 package in.avprojects.minitodo;
 
+import android.app.LoaderManager;
+import android.content.ContentUris;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,11 +15,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class ListActivity extends AppCompatActivity {
+import in.avprojects.minitodo.database.TodoContract;
+
+import static in.avprojects.minitodo.database.TodoContract.*;
+
+public class ListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static TodoAdapter mTodoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +41,25 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(new Intent(ListActivity.this,EditorActivity.class));
             }
         });
-        ArrayList<TodoDetails> dummy= new ArrayList<>();
-        dummy.add(new TodoDetails(2,"Wake Up"));
-        dummy.add(new TodoDetails(0,"Study"));
-        TodoAdapter myAdapter = new TodoAdapter(this,dummy);
+        ListView todoList = (ListView)findViewById(R.id.list_todo);
+        todoList.setEmptyView(findViewById(R.id.emptyView));
+        mTodoAdapter = new TodoAdapter(this,null);
+        todoList.setAdapter(mTodoAdapter);
+        todoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ListActivity.this,EditorActivity.class);
 
-        View v = (View)findViewById(R.id.emptyView);
-        ListView todoView = (ListView)findViewById(R.id.list_todo);
-        todoView.setEmptyView(v);
-        todoView.setAdapter(myAdapter);
+                Uri argUri = ContentUris.withAppendedId(TodoContract.BASE_URI,id);
+
+                intent.setData(argUri);
+                startActivity(intent);
+
+            }
+        });
+
+        getLoaderManager().initLoader(0,null,this);
+
     }
 
     @Override
@@ -62,4 +84,23 @@ public class ListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = {TodoTable.COLUMN_TITLE,TodoTable.COLUMN_PRIORITY};
+        String orderBy = TodoTable.COLUMN_PRIORITY + " DESC";
+        return new CursorLoader(this,TodoContract.BASE_URI,projection,null,null,orderBy);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mTodoAdapter.swapCursor(data);
+
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mTodoAdapter.swapCursor(null);
+
+    }
 }

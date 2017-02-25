@@ -14,5 +14,6 @@ public class EditorActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+
     }
 }
