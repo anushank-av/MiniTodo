@@ -58,6 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:id="@+id/edit_title"
+
             android:layout_gravity="center"
             android:gravity="top"
             />
@@ -65,11 +67,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:id="@+id/edit_priority"
             android:gravity="center"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:id="@+id/edit_details"
             android:inputType="textMultiLine"
             android:gravity="top"/>
 
