@@ -50,7 +50,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ListActivity.this,EditorActivity.class);
 
-                Uri argUri = ContentUris.withAppendedId(TodoContract.BASE_URI,id);
+                Uri argUri = ContentUris.withAppendedId(TodoTable.TABLE_URI,id);
 
                 intent.setData(argUri);
                 startActivity(intent);
@@ -86,9 +86,9 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {TodoTable.COLUMN_TITLE,TodoTable.COLUMN_PRIORITY};
+        String[] projection = {TodoTable.ID,TodoTable.COLUMN_TITLE,TodoTable.COLUMN_PRIORITY};
         String orderBy = TodoTable.COLUMN_PRIORITY + " DESC";
-        return new CursorLoader(this,TodoContract.BASE_URI,projection,null,null,orderBy);
+        return new CursorLoader(this,TodoTable.TABLE_URI,projection,null,null,orderBy);
     }
 
     @Override

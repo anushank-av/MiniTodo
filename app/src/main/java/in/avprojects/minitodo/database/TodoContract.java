@@ -30,7 +30,7 @@ public final class TodoContract {
         public static final String TABLE_NAME = "todos";
 
         //BAse Uri for this table
-        public Uri TABLE_URI = Uri.withAppendedPath(BASE_URI,PATH_TO_TODO);
+        public static Uri TABLE_URI = Uri.withAppendedPath(BASE_URI,PATH_TO_TODO);
 
         //Table attributes;
 

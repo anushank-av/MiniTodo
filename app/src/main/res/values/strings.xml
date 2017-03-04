@@ -10,4 +10,6 @@
         <item>Normal</item>
         <item>High</item>
     </string-array>
+    <string name="header_add">Add A Todo</string>
+    <string name="header_edit">Edit Todo</string>
 </resources>

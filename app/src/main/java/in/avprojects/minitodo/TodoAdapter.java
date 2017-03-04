@@ -1,14 +1,20 @@
 package in.avprojects.minitodo;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,7 +57,7 @@ public class TodoAdapter extends CursorAdapter{
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, final Cursor cursor) {
         TextView todoDetails = (TextView)view.findViewById(R.id.todo_detail);
         TextView todoPriority = (TextView)view.findViewById(R.id.todo_priority);
         int detailsIndex = cursor.getColumnIndex(TodoTable.COLUMN_TITLE);
@@ -63,6 +69,40 @@ public class TodoAdapter extends CursorAdapter{
         todoDetails.setText(det);
         GradientDrawable mDrawable = (GradientDrawable)todoPriority.getBackground();
         mDrawable.setColor(getPriorityColor(context,priority));
+
+        CheckBox itemCheck = (CheckBox)view.findViewById(R.id.todo_checked);
+        itemCheck.setChecked(false);
+        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    int idIndex = cursor.getColumnIndex(TodoTable.ID);
+                    int id = cursor.getInt(idIndex);
+                    final Uri uriTodDelete = ContentUris.withAppendedId(TodoTable.TABLE_URI,id);
+                    Animation slideOut = AnimationUtils.loadAnimation(context,android.R.anim.slide_out_right);
+                    slideOut.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            context.getContentResolver().delete(uriTodDelete,null,null);
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    view.startAnimation(slideOut);
+
+
+                }
+            }
+        });
 
     }
 }

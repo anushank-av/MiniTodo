@@ -25,6 +25,10 @@
             android:parentActivityName=".ListActivity">
 
         </activity>
+        <provider
+            android:authorities="in.avprojects.minitodo"
+            android:name=".database.TodoProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

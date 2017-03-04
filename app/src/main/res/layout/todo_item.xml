@@ -40,8 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:gravity="center"
+            android:focusable="false"
             android:id="@+id/todo_checked"
             />
+        <!-- Focusable tag because checkbox or any clickable
+            disables onItemClick event in android-->
 
     </LinearLayout>
 

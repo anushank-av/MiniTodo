@@ -20,11 +20,11 @@ public class TodoHelper extends SQLiteOpenHelper {
 
     public static final int DB_VERSION = 1;
     //The SQL Instruction to ceate a database
-    public static final String CREATE_TABLE = "create table " + TodoTable.TABLE_NAME + "("
-            +TodoTable.ID + " integer primary key autoincrement,"
-            +TodoTable.COLUMN_TITLE + "text not null"
-            +TodoTable.COLUMN_PRIORITY+" integer default 0,"
-            +TodoTable.COLUMN_DESCRIPTION+" text"+");";
+    public static final String CREATE_TABLE = "CREATE TABLE " + TodoTable.TABLE_NAME + "("
+            +TodoTable.ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            +TodoTable.COLUMN_TITLE + " TEXT NOT NULL,"
+            +TodoTable.COLUMN_PRIORITY+" INTEGER DEFAULT 0,"
+            +TodoTable.COLUMN_DESCRIPTION+" TEXT"+");";
     public TodoHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
