@@ -21,7 +21,7 @@ public class TodoHelper extends SQLiteOpenHelper {
     public static final int DB_VERSION = 1;
     //The SQL Instruction to ceate a database
     public static final String CREATE_TABLE = "CREATE TABLE " + TodoTable.TABLE_NAME + "("
-            +TodoTable.ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            +TodoTable.ID + " INTEGER PRIMARY KEY AUTOINCREMENT DEFAULT 0,"
             +TodoTable.COLUMN_TITLE + " TEXT NOT NULL,"
             +TodoTable.COLUMN_PRIORITY+" INTEGER DEFAULT 0,"
             +TodoTable.COLUMN_DESCRIPTION+" TEXT"+");";
